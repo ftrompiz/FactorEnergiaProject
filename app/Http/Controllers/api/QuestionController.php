@@ -8,6 +8,8 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Log\Logger;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
@@ -41,7 +43,8 @@ class QuestionController extends Controller
      * @param Request $request
      * @return JsonResponse
      */
-    public function getQuestion(Request $request): JsonResponse
+
+    public function getQuestions(Request $request): JsonResponse
     {
 
         try{
@@ -55,7 +58,7 @@ class QuestionController extends Controller
             return $this->returnResponse($info);
 
         } catch (ValidationException $ex){
-            return $this->returnResponseError($ex->validator->errors()->getMessages());
+            return $this->returnResponseValidationError($ex->validator->errors()->getMessages());
         }
         catch (GuzzleException $ex) {
             return $this->returnResponseError($ex->getMessage());
@@ -145,23 +148,41 @@ class QuestionController extends Controller
     {
 
         return response()->json([
-            'status' => true,
+            'status' => 'Success',
+            'message' => 'Success',
             'data' => $data
-        ]);
+        ])->setStatusCode(200);
 
     }
 
     /**
      * @param $messages
+     * @param int $statusCode
      * @return JsonResponse
      */
-    private function returnResponseError($messages): JsonResponse
+    private function returnResponseError($messages, int $statusCode = 500): JsonResponse
     {
+        Log::error($messages);
         return response()->json([
-            'message' => "Validation Errors",
-            'status' => false,
-            'errors' => $messages
-        ]);
+            'status' => 'Failed',
+            'message' => "An exception has occurred.",
+            'messages' => $messages,
+        ])->setStatusCode($statusCode);
+
+    }
+
+    /**
+     * @param $validationErrors
+     * @return JsonResponse
+     */
+    private function returnResponseValidationError($validationErrors): JsonResponse
+    {
+
+        return response()->json([
+            'status' => 'Failed',
+            'message' => "Some errors on the data inputted.",
+            'errors' => $validationErrors
+        ])->setStatusCode(400);
 
     }
 }

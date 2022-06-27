@@ -18,5 +18,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('questions', 'QuestionController@getQuestion');
+Route::get('questions', 'QuestionController@getQuestions');
 

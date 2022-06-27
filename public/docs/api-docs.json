@@ -1,0 +1,147 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Jarvis API Doc"
+    },
+    "basePath": "/api",
+    "tags": [
+        {
+            "name": "Questions"
+        }
+    ],
+    "schemes": [
+        "http"
+    ],
+
+    "paths": {
+        "/questions": {
+            "get": {
+                "tags": [
+                    "Questions"
+                ],
+                "summary": "Find all questions",
+                "description": "Returns all the questions filtered by todate, fromdate and/or tags.",
+                "operationId": "getQuestion",
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "name": "tagged",
+                        "schema": {
+                            "example": "auth"
+                        },
+                        "in": "query",
+                        "description": "tags to be filtered with",
+                        "required": true,
+                        "type": "string"
+                    },
+                    {
+                        "name": "fromdate",
+                        "schema": {
+                            "example": "20220628"
+                        },
+                        "in": "query",
+                        "description": "from date of the questions you wanna find",
+                        "required": false,
+                        "format": "Ymd",
+                        "type": "string"
+                    },{
+                        "name": "todate",
+                        "schema": {
+                            "example": "20220728"
+                        },
+                        "in": "query",
+                        "description": "to date of the questions you wanna find",
+                        "required": false,
+                        "format": "Ymd",
+                        "type": "string"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK. The response will contain all systems data corresponding to the id, name and/or code.",
+                        "schema": {
+                            "type": "json",
+                            "example": {
+                                "status": "Success",
+                                "message": "Success",
+                                "data": {
+                                    "items" : [
+                                        {
+                                            "tags": [
+                                                "amazon-web-services",
+                                                "authentication",
+                                                "amazon-cognito"
+                                            ],
+                                            "owner": {
+                                                "account_id": 13791085,
+                                                "reputation": 4966,
+                                                "user_id": 9953550,
+                                                "user_type": "registered",
+                                                "profile_image": "https://i.stack.imgur.com/nTQBj.jpg?s=256&g=1",
+                                                "display_name": "YulePale",
+                                                "link": "https://stackoverflow.com/users/9953550/yulepale"
+                                            },
+                                            "is_answered": true,
+                                            "view_count": 25,
+                                            "accepted_answer_id": 72765932,
+                                            "answer_count": 1,
+                                            "score": 0,
+                                            "last_activity_date": 1656288688,
+                                            "creation_date": 1656236726,
+                                            "question_id": 72760475,
+                                            "content_license": "CC BY-SA 4.0",
+                                            "link": "https://stackoverflow.com/questions/72760475/how-to-set-sign-up-with-email-or-phone-number-option-in-aws-cognito",
+                                            "title": "How to set sign up with email or phone-number option in AWS Cognito?"
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "422": {
+                        "description": "Bad request.",
+                        "schema": {
+                            "type": "json",
+                            "example": {
+                                "status": "Failed",
+                                "message": "Some errors on the data inputted.",
+                                "errors": {
+                                    "todate": [
+                                        "The todate must be a date after fromdate."
+                                    ],
+                                    "fromdate": [
+                                        "The fromdate must be a date before todate."
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    "5XX": {
+                        "description": "Unexpected error.",
+                        "schema": {
+                            "type": "json",
+                            "example": {
+                                "status": "Failed",
+                                "message": "An exception occurred.",
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "responses": {
+        "InternalError": {
+            "description": "Some error ocurred.",
+            "schema": {
+                "type": "json",
+                "example": {
+                    "message": "some error"
+                }
+            }
+        }
+    }
+}
