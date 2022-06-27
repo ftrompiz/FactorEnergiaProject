@@ -4,7 +4,7 @@
 
 This is a test project for a job application on the company Factor Energia. 
 
-The Api Documentation can be accessed on the route <b>api/documentation</b>. If you are deploying the app on your local machine and on the port 8000, you can use this direct link to access it:
+The API Documentation can be accessed on the route <b>api/documentation</b>. Also if you access the app via the base url where is deployed, it will automatically redirect to the API documentation.
 
-- **[Api Documentation](http://127.0.0.1:8000/api/documentation)**
+Regards.
 
