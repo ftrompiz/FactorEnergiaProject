@@ -33,7 +33,7 @@
                             "example": "auth"
                         },
                         "in": "query",
-                        "description": "tags to be filtered with",
+                        "description": "Tags to be filtered with. If its multiple tags, use semicolon(;) as delimiter",
                         "required": true,
                         "type": "string"
                     },
@@ -43,7 +43,7 @@
                             "example": "20220628"
                         },
                         "in": "query",
-                        "description": "from date of the questions you wanna find",
+                        "description": "From date of the questions you wanna find",
                         "required": false,
                         "format": "Ymd",
                         "type": "string"
@@ -53,7 +53,7 @@
                             "example": "20220728"
                         },
                         "in": "query",
-                        "description": "to date of the questions you wanna find",
+                        "description": "To date of the questions you wanna find",
                         "required": false,
                         "format": "Ymd",
                         "type": "string"
@@ -96,7 +96,10 @@
                                             "link": "https://stackoverflow.com/questions/72760475/how-to-set-sign-up-with-email-or-phone-number-option-in-aws-cognito",
                                             "title": "How to set sign up with email or phone-number option in AWS Cognito?"
                                         }
-                                    ]
+                                    ],
+                                    "has_more": true,
+                                    "quota_max": 300,
+                                    "quota_remaining": 224
                                 }
                             }
                         }
