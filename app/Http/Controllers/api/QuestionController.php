@@ -25,20 +25,24 @@ class QuestionController extends Controller
             self::DATA_TYPE         => 'string'
         ],
         'todate' => [
-            self::VALIDATOR_TAG     => 'date',
+            self::VALIDATOR_TAG     => 'date_format:Ymd|after:fromdate',
             self::DEFAULT_VALUE_TAG => null,
+            self::DATA_TYPE => 'date'
         ],
         'fromdate' => [
-            self::VALIDATOR_TAG     => 'date',
+            self::VALIDATOR_TAG     => 'date_format:Ymd|before:todate',
             self::DEFAULT_VALUE_TAG => null,
+            self::DATA_TYPE => 'date'
         ]
 
     ];
 
     /**
      * @param Request $request
+     * @return JsonResponse
      */
-    public function getQuestion(Request $request){
+    public function getQuestion(Request $request): JsonResponse
+    {
 
         try{
 
@@ -96,7 +100,7 @@ class QuestionController extends Controller
         foreach ($this->paramsConfig as $paramName => $info) {
             $value = $request->get($paramName, $info[self::DEFAULT_VALUE_TAG]);
             if ($value){
-                $params[$paramName] = $value;
+                $params[$paramName] = $info[self::DATA_TYPE] === 'date' ? $this->convertDateValue($value) : $value;
             }
         }
 
@@ -122,6 +126,15 @@ class QuestionController extends Controller
             throw new Exception($ex->getMessage());
         }
 
+    }
+
+    /**
+     * @param $value
+     * @return false|int
+     */
+    private function convertDateValue($value): bool|int
+    {
+        return strtotime(date("Y-m-d", strtotime($value)));
     }
 
     /**
