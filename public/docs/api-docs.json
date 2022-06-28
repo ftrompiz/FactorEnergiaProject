@@ -34,6 +34,7 @@
                         },
                         "in": "query",
                         "description": "Tags to be filtered with. If its multiple tags, use semicolon(;) as delimiter",
+                        "maxLength": 255,
                         "required": true,
                         "type": "string"
                     },
@@ -43,9 +44,10 @@
                             "example": "20220628"
                         },
                         "in": "query",
-                        "description": "From date of the questions you wanna find",
+                        "description": "From date of the questions you wanna find. Format (Ymd). Ex: 20220522",
+
                         "required": false,
-                        "format": "Ymd",
+                        "pattern": "^\\d{4}\\d{2}\\d{2}$",
                         "type": "string"
                     },{
                         "name": "todate",
@@ -53,9 +55,9 @@
                             "example": "20220728"
                         },
                         "in": "query",
-                        "description": "To date of the questions you wanna find",
+                        "description": "To date of the questions you wanna find. Format (Ymd). Ex: 20220522",
                         "required": false,
-                        "format": "Ymd",
+                        "pattern": "^\\d{4}\\d{2}\\d{2}$",
                         "type": "string"
                     }
                 ],
@@ -104,7 +106,7 @@
                             }
                         }
                     },
-                    "422": {
+                    "400": {
                         "description": "Bad request.",
                         "schema": {
                             "type": "json",
@@ -112,6 +114,9 @@
                                 "status": "Failed",
                                 "message": "Some errors on the data inputted.",
                                 "errors": {
+                                    "tagged": [
+                                        "The tagged field is required."
+                                    ],
                                     "todate": [
                                         "The todate must be a date after fromdate."
                                     ],
@@ -128,7 +133,7 @@
                             "type": "json",
                             "example": {
                                 "status": "Failed",
-                                "message": "An exception occurred.",
+                                "message": "An exception occurred."
                             }
                         }
                     }
